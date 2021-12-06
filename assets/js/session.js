@@ -1,5 +1,6 @@
 import { handleKeyDown, handleKeyUp } from './key-events.js';
 import { handleWordEnd } from './word-events.js';
+import { handlePrompt } from './prompt-events.js'
 
 let session;
 
@@ -66,6 +67,8 @@ export function setup() {
     for (const event of session.wordEvents) {
       console.log(event);
     }
+    console.log('Prompt Event');
+    console.log(handlePrompt(session));
   });
 
   resetButton.addEventListener('click', () => {
