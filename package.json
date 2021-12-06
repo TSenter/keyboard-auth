@@ -6,6 +6,7 @@
   "author": "Tyler Senter <tsenter@vols.utk.edu>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "ml": "^6.0.0"
   }
 }
