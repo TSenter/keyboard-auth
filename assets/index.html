@@ -45,6 +45,28 @@
           </ul>
         </li>
       </ul>
+      <h2>Word Event</h2>
+      <p>This event logs aggregate information about typing a word. This includes the following attributes:</p>
+      <ul>
+        <li>Sequence of keys entered</li>
+        <li>Final entered string</li>
+        <li>Number of mistakes</li>
+        <li>Event timings
+          <ul>
+            <li>Timestamp of word start</li>
+            <li>Timestamp of word end</li>
+            <li>Duration of typing the word</li>
+            <li>Downtime per word (time spent not pressing any keys, may be negative)</li>
+          </ul>
+        </li>
+        <li>Key timings
+          <ul>
+            <li>Total keypress duration</li>
+            <li>Average keypress duration</li>
+            <li>Number of keypresses</li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </body>
 </html>
