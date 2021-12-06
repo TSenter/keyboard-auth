@@ -4,7 +4,7 @@ export function handlePrompt(session) {
   const timing = getTiming(session);
   const wpm = getWpm(session, timing);
 
-  return {
+  const promptEvent = {
     keySequence,
     meta: {
       numMistakes,
@@ -12,6 +12,10 @@ export function handlePrompt(session) {
     timing,
     wpm,
   };
+
+  session.promptEvents.push(promptEvent);
+
+  return promptEvent;
 }
 
 function getKeySequence(session) {
