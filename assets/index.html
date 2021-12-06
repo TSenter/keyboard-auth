@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KeyboardAuth | ECE-469</title>
+    <script type="module"  src="/js/script.js" defer></script>
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <p id="prompt"></p>
+    <input id="tester" type="text" />
+    <button id="log">Log</button>
+    <button id="reset">Reset</button>
+
+    <div>
+      <h1>Events</h1>
+      <h2>Key Event</h2>
+      <p>
+        This event logs information about a specific key pressed from the
+        keyboard, including the following attributes:
+      </p>
+      <ul>
+        <li>Code of key pressed</li>
+        <li>
+          Timings
+          <ul>
+            <li>Timestamp of keydown</li>
+            <li>Timestamp of keyup</li>
+            <li>Duration of keypress</li>
+          </ul>
+        </li>
+        <li>
+          Keypress meta
+          <ul>
+            <li>Was <kbd>Alt</kbd> held down during the keypress?</li>
+            <li>Was <kbd>Ctrl</kbd> held down during the keypress?</li>
+            <li>Was <kbd>Shift</kbd> held down during the keypress?</li>
+            <li>
+              Was <kbd>⊞</kbd> or <kbd>⌘ Command</kbd> held down during the
+              keypress?
+            </li>
+            <li>How many characters were typed by holding the key down?</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
