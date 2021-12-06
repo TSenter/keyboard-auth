@@ -17,11 +17,25 @@ function beginSession() {
   session.activeKeys = {};
 }
 
+function sendTrainingData() {
+  const xhttp = new XMLHttpRequest();
+
+  const userId = document.querySelector('#user_id').value;
+
+  session.userId = userId;
+
+  xhttp.open('POST', '/api/key-metrics', true);
+  xhttp.setRequestHeader('Content-Type', 'application/json');
+  xhttp.send(JSON.stringify(session));
+}
+
 export function setup() {
   beginSession();
+  loadPrompt();
 
   const inputElement = document.querySelector('#tester');
-  const logButton = document.querySelector('#log');
+  const trainButton = document.querySelector('#train');
+  const classifyButton = document.querySelector('#classify');
   const resetButton = document.querySelector('#reset');
 
   inputElement.addEventListener('keydown', evt => {
@@ -52,9 +66,19 @@ export function setup() {
     session.currentKeyEvents = [];  
   }
 
-  logButton.addEventListener('click', () => {
-    // TODO Submit data
+  function loadPrompt() {
+    const xhttp = new XMLHttpRequest();
 
+    xhttp.open('GET', '/api/prompt');
+    xhttp.onload = () => {
+      document.querySelector('#prompt').innerHTML = xhttp.responseText;
+    }
+    xhttp.send();
+  }
+
+  trainButton.addEventListener('click', () => {
+    // TODO Submit data
+    
     if (session.currentKeyEvents.length) {
       createWordEvent();
     }
@@ -69,11 +93,39 @@ export function setup() {
     }
     console.log('Prompt Event');
     console.log(handlePrompt(session));
+    sendTrainingData();
   });
+
+  classifyButton.addEventListener('click', () => {
+    if (session.currentKeyEvents.length) {
+      createWordEvent();
+    }
+    console.clear();
+    console.log('Key Events');
+    for (const event of session.allKeyEvents) {
+      console.log(event);
+    }
+    console.log('Word Events');
+    for (const event of session.wordEvents) {
+      console.log(event);
+    }
+    console.log('Prompt Event');
+    console.log(handlePrompt(session));
+
+    // TODO Send data to be classified
+    const xhttp = new XMLHttpRequest();
+
+    // const userId = document.querySelector('#user_id').value;
+
+    xhttp.open('POST', '/api/classify', true);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.send(JSON.stringify(session));
+  })
 
   resetButton.addEventListener('click', () => {
     session = undefined;
     beginSession();
+    loadPrompt();
     console.clear();
     console.log('Session reset');
     inputElement.value = '';

@@ -1,6 +1,7 @@
 export function handlePrompt(session) {
   const keySequence = getKeySequence(session);
   const numMistakes = getNumMistakes(session);
+  const averageKeypressDuration = getAverageKeypressDuration(session);
   const timing = getTiming(session);
   const wpm = getWpm(session, timing);
 
@@ -8,6 +9,7 @@ export function handlePrompt(session) {
     keySequence,
     meta: {
       numMistakes,
+      averageKeypressDuration,
     },
     timing,
     wpm,
@@ -27,6 +29,17 @@ function getNumMistakes({ wordEvents }) {
     (total, evt) => total + evt.numMistakes,
     0
   );
+}
+
+function getAverageKeypressDuration(session) {
+  const keyEvents = session.allKeyEvents;
+
+  const totalKeyPressDuration = keyEvents.reduce(
+    (total, evt) => total + evt.timing.duration,
+    0
+  );
+
+  return totalKeyPressDuration / keyEvents.length;
 }
 
 function getTiming({ wordEvents }) {

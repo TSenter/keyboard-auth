@@ -2,6 +2,7 @@
   "name": "keyboard-auth",
   "version": "1.0.0",
   "main": "src/index.js",
+  "type": "module",
   "repository": "git@github.com:TSenter/keyboard-auth.git",
   "author": "Tyler Senter <tsenter@vols.utk.edu>",
   "license": "MIT",

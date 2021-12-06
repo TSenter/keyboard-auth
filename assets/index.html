@@ -4,14 +4,19 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KeyboardAuth | ECE-469</title>
+    <title>BrownFox | ECE-469</title>
     <script type="module"  src="/js/script.js" defer></script>
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <p id="prompt"></p>
+    <div>
+      <strong>Prompt: </strong>
+      <p id="prompt">Loading...</p>
+    </div>
+    <input id="user_id" placeholder="User ID" type="text" />
     <input id="tester" type="text" />
-    <button id="log">Log</button>
+    <button id="train">Train</button>
+    <button id="classify">Classify</button>
     <button id="reset">Reset</button>
 
     <div>
