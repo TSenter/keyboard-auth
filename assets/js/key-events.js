@@ -14,7 +14,7 @@ function mapKeyEvent(evt) {
 
 export function handleKeyDown(session, evt) {
   const keyCode = evt.code;
-  const previousKeyDownEvent = session.activeKeyEvents[keyCode];
+  const previousKeyDownEvent = session.activeKeys[keyCode];
 
   if (previousKeyDownEvent) {
     // There is already an active event for this keycode
@@ -32,14 +32,14 @@ export function handleKeyDown(session, evt) {
     ...mapKeyEvent(evt),
   };
 
-  session.activeKeyEvents[keyCode] = keyEvent;
+  session.activeKeys[keyCode] = keyEvent;
 }
 
 export function handleKeyUp(session, evt) {
   const keyCode = evt.code;
   const keyPressStop = Date.now();
 
-  const keyDownEvent = session.activeKeyEvents[keyCode];
+  const keyDownEvent = session.activeKeys[keyCode];
   if (!keyDownEvent) {
     // Somehow the "keyup" event fired before a matching "keydown" event was fired
     return;
@@ -48,8 +48,11 @@ export function handleKeyUp(session, evt) {
   keyDownEvent['timing']['stop'] = keyPressStop;
   keyDownEvent['timing']['duration'] = keyPressStop - keyDownEvent.timing.start;
   keyDownEvent['keyCode'] = keyCode;
+  keyDownEvent['key'] = evt.key;
 
-  session.keyEvents.push(keyDownEvent);
+  session.currentKeyEvents.push(keyDownEvent);
 
-  delete session.activeKeyEvents[keyCode];
+  delete session.activeKeys[keyCode];
+
+  return keyDownEvent;
 }

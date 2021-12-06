@@ -1,4 +1,5 @@
 import { handleKeyDown, handleKeyUp } from './key-events.js';
+import { handleWordEnd } from './word-events.js';
 
 let session;
 
@@ -7,12 +8,12 @@ function beginSession() {
     return;
   }
   session = {};
-  session.keyEvents = [];
+  session.allKeyEvents = [];
+  session.currentKeyEvents = [];
   session.wordEvents = [];
-  session.sentenceEvents = [];
-  session.stats = {};
+  session.promptEvents = [];
 
-  session.activeKeyEvents = {};
+  session.activeKeys = {};
 }
 
 export function setup() {
@@ -31,12 +32,38 @@ export function setup() {
   inputElement.addEventListener('keyup', evt => {
     evt.stopPropagation();
 
-    handleKeyUp(session, evt);
-  })
+    const lastKeyEvent = handleKeyUp(session, evt);
+
+    if (lastKeyEvent.key == ' ') {
+      createWordEvent();
+    }
+  });
+  
+  function createWordEvent() {
+    const currentKeyEvents = JSON.parse(JSON.stringify(session.currentKeyEvents));
+    session.allKeyEvents.push(...currentKeyEvents);
+
+    if (currentKeyEvents[currentKeyEvents.length - 1].key == ' ') {
+      session.currentKeyEvents.pop();
+    }
+
+    handleWordEnd(session);
+    session.currentKeyEvents = [];  
+  }
 
   logButton.addEventListener('click', () => {
+    // TODO Submit data
+
+    if (session.currentKeyEvents.length) {
+      createWordEvent();
+    }
     console.clear();
-    for (let event of session.keyEvents) {
+    console.log('Key Events');
+    for (const event of session.allKeyEvents) {
+      console.log(event);
+    }
+    console.log('Word Events');
+    for (const event of session.wordEvents) {
       console.log(event);
     }
   });
